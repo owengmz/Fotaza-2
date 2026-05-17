@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Trabajo Practico Integrador (TPI) de Programacion Web II.\r Tecnicatura en Desarrollo de Software - Universidad de La Punta (ULP).",
   "main": "app.js",
-"scripts": {
+  "scripts": {
     "start": "node app.js",
     "dev": "node --watch app.js"
   },
@@ -18,5 +18,17 @@
   "bugs": {
     "url": "https://github.com/owengmz/Fotaza-2/issues"
   },
-  "homepage": "https://github.com/owengmz/Fotaza-2#readme"
+  "homepage": "https://github.com/owengmz/Fotaza-2#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.1.1",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "pug": "^3.0.4",
+    "sequelize": "^6.37.8",
+    "zod": "^4.4.3"
+  }
 }
