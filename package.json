@@ -1,0 +1,22 @@
+{
+  "name": "fotaza-2",
+  "version": "1.0.0",
+  "description": "Trabajo Practico Integrador (TPI) de Programacion Web II.\r Tecnicatura en Desarrollo de Software - Universidad de La Punta (ULP).",
+  "main": "app.js",
+"scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/owengmz/Fotaza-2.git"
+  },
+  "keywords": [],
+  "author": "Owen Developer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/owengmz/Fotaza-2/issues"
+  },
+  "homepage": "https://github.com/owengmz/Fotaza-2#readme"
+}
