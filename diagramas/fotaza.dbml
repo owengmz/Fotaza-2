@@ -1,0 +1,185 @@
+// ============================================================
+// FOTAZA 2 - Diagrama Entidad-Relacion
+// Pegar este codigo en https://dbdiagram.io
+// ============================================================
+
+Table usuarios {
+  id bigint [pk, increment]
+  nombre text [not null]
+  apellido text [not null]
+  email text [unique, not null]
+  password text [not null, note: 'se guarda el hash, nunca texto plano']
+  nombre_usuario text [unique, not null]
+  avatar text
+  bio text
+  rol text [not null, default: 'usuario', note: 'usuario / validador / admin']
+  estado text [not null, default: 'activo', note: 'activo / inactivo']
+  fecha_creacion timestamptz [not null, default: `now()`]
+}
+
+Table publicaciones {
+  id bigint [pk, increment]
+  titulo text [not null]
+  descripcion text
+  usuario_id bigint [not null, ref: > usuarios.id]
+  comentarios_abiertos boolean [not null, default: true]
+  estado text [not null, default: 'activa', note: 'activa / bajada / pendiente_revision']
+  fecha_creacion timestamptz [not null, default: `now()`]
+
+  Indexes {
+    usuario_id
+    estado
+  }
+}
+
+Table imagenes {
+  id bigint [pk, increment]
+  url text [not null]
+  licencia text [not null, note: 'con_copyright / sin_copyright']
+  texto_marca_agua text
+  publicacion_id bigint [not null, ref: > publicaciones.id]
+  fecha_creacion timestamptz [not null, default: `now()`]
+
+  Indexes {
+    publicacion_id
+  }
+}
+
+Table etiquetas {
+  id bigint [pk, increment]
+  nombre text [unique, not null]
+}
+
+Table publicaciones_etiquetas {
+  publicacion_id bigint [not null, ref: > publicaciones.id]
+  etiqueta_id bigint [not null, ref: > etiquetas.id]
+
+  Indexes {
+    (publicacion_id, etiqueta_id) [pk]
+    etiqueta_id
+  }
+}
+
+Table comentarios {
+  id bigint [pk, increment]
+  contenido text [not null]
+  publicacion_id bigint [not null, ref: > publicaciones.id]
+  usuario_id bigint [not null, ref: > usuarios.id]
+  fecha_creacion timestamptz [not null, default: `now()`]
+
+  Indexes {
+    publicacion_id
+    usuario_id
+  }
+}
+
+Table valoraciones {
+  usuario_id bigint [not null, ref: > usuarios.id]
+  imagen_id bigint [not null, ref: > imagenes.id]
+  valor integer [not null, note: 'entre 1 y 5']
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (usuario_id, imagen_id) [pk]
+    imagen_id
+  }
+}
+
+Table denuncias_imagen {
+  usuario_id bigint [not null, ref: > usuarios.id]
+  imagen_id bigint [not null, ref: > imagenes.id]
+  motivo text [not null, note: 'contenido_inapropiado / copyright / spam / otro']
+  descripcion text [not null]
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (usuario_id, imagen_id) [pk]
+    imagen_id
+  }
+}
+
+Table denuncias_comentario {
+  usuario_id bigint [not null, ref: > usuarios.id]
+  comentario_id bigint [not null, ref: > comentarios.id]
+  motivo text [not null, note: 'contenido_inapropiado / copyright / spam / otro']
+  descripcion text [not null]
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (usuario_id, comentario_id) [pk]
+    comentario_id
+  }
+}
+
+Table followers {
+  usuario_seguidor_id bigint [not null, ref: > usuarios.id]
+  usuario_seguido_id bigint [not null, ref: > usuarios.id]
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (usuario_seguidor_id, usuario_seguido_id) [pk]
+    usuario_seguido_id
+  }
+}
+
+Table notificaciones {
+  id bigint [pk, increment]
+  usuario_id bigint [not null, ref: > usuarios.id]
+  tipo text [not null, note: 'nuevo_comentario / nueva_valoracion / me_interesa / nuevo_seguidor']
+  generador_id bigint [not null, ref: > usuarios.id]
+  publicacion_id bigint [ref: > publicaciones.id]
+  imagen_id bigint [ref: > imagenes.id]
+  leida boolean [not null, default: false]
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    usuario_id
+    (usuario_id, leida)
+  }
+}
+
+Table colecciones {
+  id bigint [pk, increment]
+  nombre text [not null]
+  usuario_id bigint [not null, ref: > usuarios.id]
+
+  Indexes {
+    usuario_id
+  }
+}
+
+Table colecciones_publicaciones {
+  coleccion_id bigint [not null, ref: > colecciones.id]
+  publicacion_id bigint [not null, ref: > publicaciones.id]
+
+  Indexes {
+    (coleccion_id, publicacion_id) [pk]
+    publicacion_id
+  }
+}
+
+Table me_interesa {
+  usuario_id bigint [not null, ref: > usuarios.id]
+  imagen_id bigint [not null, ref: > imagenes.id]
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    (usuario_id, imagen_id) [pk]
+    imagen_id
+  }
+}
+
+Table mensajes {
+  id bigint [pk, increment]
+  remitente_id bigint [not null, ref: > usuarios.id]
+  destinatario_id bigint [not null, ref: > usuarios.id]
+  contenido text [not null]
+  leido boolean [not null, default: false]
+  imagen_id bigint [ref: > imagenes.id]
+  fecha timestamptz [not null, default: `now()`]
+
+  Indexes {
+    destinatario_id
+    remitente_id
+  }
+}
