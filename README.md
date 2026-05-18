@@ -14,6 +14,6 @@ siguen a otros, denuncian contenido y se contactan por mensajeria.
 
 ## Estado del proyecto
 
-- [x] Etapa 0: Diseno de base de datos (ver carpeta diagramas)
-- [ ] Etapa 1: Armado del proyecto
+- [ok] Etapa 0: Diseno de base de datos (ver carpeta diagramas)
+- [ok] Etapa 1: Armado del proyecto
 - [ ] Etapa 2: Modelos
