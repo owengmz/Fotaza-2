@@ -16,6 +16,10 @@ Usuario.init(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
+    apellido: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -27,7 +31,23 @@ Usuario.init(
     passwordHash: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'password',
     },
+    nombreUsuario: {
+      type: DataTypes.STRING(30),
+      allowNull: false,
+      unique: true,
+      field: 'nombre_usuario',
+    },
+    avatar: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+    bio: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+
     rol: {
       type: DataTypes.ENUM('usuario', 'validador', 'admin'),
       allowNull: false,
