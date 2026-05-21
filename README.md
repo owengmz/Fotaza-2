@@ -11,9 +11,3 @@ siguen a otros, denuncian contenido y se contactan por mensajeria.
 - Node.js + Express
 - PostgreSQL (via Sequelize)
 - PUG (vistas renderizadas en el servidor)
-
-## Estado del proyecto
-
-- [ok] Etapa 0: Diseno de base de datos (ver carpeta diagramas)
-- [ok] Etapa 1: Armado del proyecto
-- [ ] Etapa 2: Modelos
