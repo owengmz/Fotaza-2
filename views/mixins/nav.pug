@@ -1,0 +1,22 @@
+//- mixin para la barra de navegacion */
+nav.nav
+  //- agregamos el logo de la app y los enlaces de navegacion */
+  a.nav__logo(href="/") Fotaza
+  //- lista de enlaces */
+  ul.nav__links
+    //- si el usuario esta registrado mostramos los enlaces de nueva publicacion, perfil, notificaciones y cerra sesion, si no solo mostramos inicio de sesion y registro */
+    if usuario
+      li
+        a(href="/publicaciones/nueva") Nueva publicacion
+      li
+        a(href="/perfil") Mi perfil
+      li
+        a(href="/notificaciones") Notificaciones
+      li
+        form(action="/auth/logout" method="POST")
+          button.btn.btn--link(type="submit") Cerrar sesion
+    else
+      li
+        a(href="/auth/login") Iniciar sesion
+      li
+        a(href="/auth/registro") Registrarse

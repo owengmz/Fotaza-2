@@ -1,0 +1,37 @@
+//- archivo de formulario de inicio de session extiende de layout principal 
+extends ../../layout
+block title
+  | Iniciar sesion | Fotaza
+//- bloque content va a renderizar el contenido de la pagina de inicio 
+block content
+  //- seccion para el formulario de inicio 
+  section.auth
+    h1.auth__titulo Iniciar sesion
+    //- formulario de inicio de session con campos para el email y contraseña, estos datos se envian al servidor mediante post a la ruta seleccionada 
+    form.auth__form(action="/auth/login" method="POST")
+      .form__grupo
+        label.form__label(for="email") Email
+        input.form__input(
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+        )
+      //- campo de contraseña con tipo password para ocultar el texto ingresado por el usuario y el atributo autocompletado para ayudar al navegador a recordar la contraseña  
+      .form__grupo
+        label.form__label(for="password") Contraseña
+        input.form__input(
+          type="password"
+          id="password"
+          name="password"
+          required
+          autocomplete="current-password"
+        )
+      //- usamos un boton de tipo submit para enviar el formulario al servidor 
+      button.btn.btn--primario(type="submit") Ingresar
+    //- si el usuario no tiene cuenta mostramos el siguente mensaje para que se registre
+    p.auth__link
+      | ¿No tenes cuenta?&nbsp;
+      //- link para redirigir al usuario a la pagina de registro
+      a(href="/auth/registro") Registrate

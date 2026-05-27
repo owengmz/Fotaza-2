@@ -1,0 +1,4 @@
+//- este mixin se encarga de mostrar mensajes de alerta en la pagina */
+if locals.mensaje
+  .alert(class=`alert--${locals.tipoMensaje || 'info'}`)
+    p= locals.mensaje

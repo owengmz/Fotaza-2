@@ -1,0 +1,22 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    //- bloque para el titulo de la pagina
+    title
+      block title
+        | Fotaza
+    //- enlace a archivo de estilos
+    link(rel="stylesheet" href="/css/main.css")
+  body
+    //- incluir el mixin de la barra de navegacion y el mixin de alertas
+    //- el mixin es un bloque de codigo reutilizable que se puede incluir en diferentes archivos de la app
+    include mixins/nav.pug
+    include mixins/alert.pug
+    //- el main es el contenedor principal de la pagina
+    //- el bloque content es donde se renderiza el contenido de cada vista
+    main.container
+      block content
+    //- bloque para los scripts de la pagina
+    block scripts

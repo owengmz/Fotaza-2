@@ -1,10 +1,9 @@
 import { Router } from 'express';
+import { mostrarHome } from '../controller/home.js';
+
 
 const router = Router();
 
-// ruta de prueba - reemplazar en etapa 4 con la vista home real
-router.get('/', (req, res) => {
-  res.send('Fotaza 2 funcionando');
-});
+router.get('/', mostrarHome);
 
 export default router;

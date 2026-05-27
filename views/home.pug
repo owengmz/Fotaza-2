@@ -1,0 +1,40 @@
+//- Archivo de plantilla para la pagina de inicio, extiende el layout principal
+extends layout
+
+//- bloque para el titulo de la pagina
+block title
+  //- mostramos el titulo de la pagina en el navegador
+  | Inicio | Fotaza
+
+//- el bloque content va renderizar el contenido de la pagina de inicio
+block content
+  //- seccion bienvenida y descripcion de la pagina
+  section.home__hero
+    h1.home__titulo Fotaza
+    p.home__subtitulo La red social de fotografia
+
+  //- seccion para mostrar publicaciones recientes recorremos el array de publicaciones y mostramos cada una de ellas en el grid
+  section.home__galeria
+    if publicaciones && publicaciones.length
+      .galeria__grid
+        each publicacion in publicaciones
+          article.galeria__item
+            a(href=`/publicaciones/${publicacion.id}`)
+              img.galeria__img(
+                src=publicacion.imagenes[0].url
+                alt=publicacion.titulo
+              )
+            .galeria__info
+              h2.galeria__titulo= publicacion.titulo
+              p.galeria__autor= publicacion.autor.nombreUsuario
+
+    //- si no hay publicaciones mostramos un mensaje indicando que no hay publicaciones
+    else
+      p.galeria__vacia No hay publicaciones disponibles todavia.
+
+  //- si el usuario no esta registrado mostramos un mensaje invitandolo a registrarse asi puede subir fotos y comentar
+  if !usuario
+    section.home__cta
+      p Para subir fotos, comentar y valorar, crea tu cuenta.
+      a.btn.btn--primario(href="/auth/registro") Registrarse
+      a.btn.btn--secundario(href="/auth/login") Iniciar sesion
