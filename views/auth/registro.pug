@@ -1,22 +1,65 @@
-doctype html
-html(lang="es")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    //- bloque para el titulo de la pagina
-    title
-      block title
-        | Fotaza
-    //- enlace a archivo de estilos
-    link(rel="stylesheet" href="/css/main.css")
-  body
-    //- incluir el mixin de la barra de navegacion y el mixin de alertas
-    //- el mixin es un bloque de codigo reutilizable que se puede incluir en diferentes archivos de la app
-    include mixins/nav.pug
-    include mixins/alert.pug
-    //- el main es el contenedor principal de la pagina
-    //- el bloque content es donde se renderiza el contenido de cada vista
-    main.container
-      block content
-    //- bloque para los scripts de la pagina
-    block scripts
+extends ../layout
+-/* este archivo define la vista para el registro de nuevos usuarios. extiende el layout principal para mantener una apariencia consistente en toda la aplicacion. */
+block title
+  | Registrarse | Fotaza
+-/* el bloque content se encarga de renderizar el contenido especifico de la pagina registro donde esta el fomrulario para crear una nueva cuenta */
+block content
+  section.auth
+    h1.auth__titulo Crear cuenta
+
+    form.auth__form(action="/auth/registro" method="POST")
+      .form__grupo
+        label.form__label(for="nombre") Nombre
+        input.form__input(
+          type="text"
+          id="nombre"
+          name="nombre"
+          required
+          autocomplete="given-name"
+        )
+
+      .form__grupo
+        label.form__label(for="apellido") Apellido
+        input.form__input(
+          type="text"
+          id="apellido"
+          name="apellido"
+          required
+          autocomplete="family-name"
+        )
+
+      .form__grupo
+        label.form__label(for="nombreUsuario") Nombre de usuario
+        input.form__input(
+          type="text"
+          id="nombreUsuario"
+          name="nombreUsuario"
+          required
+          autocomplete="username"
+        )
+
+      .form__grupo
+        label.form__label(for="email") Email
+        input.form__input(
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+        )
+
+      .form__grupo
+        label.form__label(for="password") Contrasena
+        input.form__input(
+          type="password"
+          id="password"
+          name="password"
+          required
+          autocomplete="new-password"
+        )
+
+      button.btn.btn--primario(type="submit") Crear cuenta
+
+    p.auth__link
+      | ¿Ya tenes cuenta?&nbsp;
+      a(href="/auth/login") Inicia sesion

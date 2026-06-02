@@ -1,7 +1,7 @@
 // cargarmos en .env exxpres y bd 
 import 'dotenv/config';
 import express from 'express';
-import { connectDatabase } from './models/index.js';
+import { connectDatabase, Usuario } from './models/index.js';
 import session from 'express-session';
 import router from './routes/index.js';
 // punto de entrada de la apps
@@ -33,12 +33,28 @@ app.use(session({
 // rutas
 
 // pasa el usuario logueado a todas las vistas pug
-app.use((req, res, next) => {
-  res.locals.usuario = req.session.usuario || null;
+app.use(async (req, res, next) => {
+  if (req.session.usuarioId) {
+    try {
+      res.locals.usuario = await Usuario.findByPk(req.session.usuarioId, {
+        attributes: ['id', 'nombre', 'nombreUsuario', 'avatar', 'rol'],
+      });
+    } catch (err) {
+      res.locals.usuario = null;
+    }
+  } else {
+    res.locals.usuario = null;
+  }
   next();
 });
 // pug generamos html dinamico 
 app.set('view engine', 'pug');
+// transfiere el flash de sesion a locals y lo borra para que no se repita
+app.use((req, res, next) => {
+  res.locals.flash = req.session.flash || null;
+  delete req.session.flash;
+  next();
+});
 // con esto expres setea la carpeta donde estan vistas
 app.set('views', './views');
 
