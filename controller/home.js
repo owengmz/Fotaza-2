@@ -3,7 +3,7 @@ import { Publicacion, Imagen, Usuario } from '../models/index.js';
 
 export async function mostrarHome(req, res, next) {
   try {
-    const esAnonimo = !req.session.usuario;
+    const esAnonimo = !req.session.usuarioId;
 
     const where = esAnonimo ? { '$imagenes.licencia$': 'sin_copyright' } : {};
 

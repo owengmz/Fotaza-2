@@ -1,0 +1,27 @@
+extends ../layout
+block title
+  | #{publicacion.titulo} | Fotaza
+
+block content
+  article.detalle
+    .detalle__header
+      h1.detalle__titulo= publicacion.titulo
+      p.detalle__autor
+        | Por&nbsp;
+        a(href=`/perfil/${publicacion.autor.nombreUsuario}`)= publicacion.autor.nombreUsuario
+      if publicacion.descripcion
+        p.detalle__descripcion= publicacion.descripcion
+      if publicacion.etiquetas && publicacion.etiquetas.length
+        .detalle__etiquetas
+          each etiqueta in publicacion.etiquetas
+            span.etiqueta= etiqueta.nombre
+
+    .detalle__imagenes
+      each imagen in imagenes
+        .detalle__imagen-bloque
+          img.detalle__img(src=imagen.url alt=publicacion.titulo)
+          .detalle__valoracion
+            if imagen.cantidad > 0
+              span Promedio: #{imagen.promedio} (#{imagen.cantidad} valoraciones)
+            else
+              span Sin valoraciones todavia

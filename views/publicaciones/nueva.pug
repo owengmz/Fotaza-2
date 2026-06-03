@@ -1,0 +1,65 @@
+extends ../layout
+
+block title
+  | Nueva publicacion | Fotaza
+
+block content
+  section.auth
+    h1.auth__titulo Nueva publicacion
+    form.auth__form(action="/publicaciones/nueva" method="POST" enctype="multipart/form-data")
+      .form__grupo
+        label.form__label(for="titulo") Titulo
+        input.form__input(
+          type="text"
+          id="titulo"
+          name="titulo"
+          required
+        )
+      .form__grupo
+        label.form__label(for="descripcion") Descripcion
+        textarea.form__input(
+          id="descripcion"
+          name="descripcion"
+          rows="3"
+        )
+      .form__grupo
+        label.form__label(for="etiquetas") Etiquetas (separadas por coma)
+        input.form__input(
+          type="text"
+          id="etiquetas"
+          name="etiquetas"
+          placeholder="naturaleza, viajes, retrato"
+        )
+      .form__grupo
+        label.form__label(for="licencia") Licencia
+        select.form__input(id="licencia" name="licencia" required)
+          option(value="sin_copyright") Sin copyright
+          option(value="con_copyright") Con copyright
+      .form__grupo#grupo-marca-agua
+        label.form__label(for="textoMarcaAgua") Texto de marca de agua
+        input.form__input(
+          type="text"
+          id="textoMarcaAgua"
+          name="textoMarcaAgua"
+        )
+      .form__grupo
+        label.form__label(for="imagenes") Imagenes
+        input.form__input(
+          type="file"
+          id="imagenes"
+          name="imagenes"
+          accept="image/*"
+          multiple
+          required
+        )
+      button.btn.btn--primario(type="submit") Publicar
+
+block scripts
+  script.
+    const select = document.getElementById('licencia');
+    const grupoMarca = document.getElementById('grupo-marca-agua');
+    function toggleMarca() {
+      grupoMarca.style.display = select.value === 'con_copyright' ? 'block' : 'none';
+    }
+    toggleMarca();
+    select.addEventListener('change', toggleMarca);

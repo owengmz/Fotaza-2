@@ -23,6 +23,11 @@ Imagen.init(
       allowNull: true,
       field: 'texto_marca_agua',
     },
+    publicacionId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'publicacion_id',
+    },
   },
   {
     sequelize,

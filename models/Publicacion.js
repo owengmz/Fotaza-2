@@ -18,6 +18,11 @@ Publicacion.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    usuarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'usuario_id',
+    },
     comentariosAbiertos: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
