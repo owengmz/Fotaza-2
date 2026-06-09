@@ -4,6 +4,8 @@ import express from 'express';
 import { connectDatabase, Usuario } from './models/index.js';
 import session from 'express-session';
 import router from './routes/index.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 // punto de entrada de la apps
 
 
@@ -11,12 +13,14 @@ import router from './routes/index.js';
 // constantes
 const PORT = process.env.PORT || 3000;
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // con express podemos obtener los archivos estaticos de la carpeta public y parcear el boddy 
 
 
 
 // middlewares
-app.use(express.static('public'));
+app.use(express.static(join(__dirname, 'public')));
 // hace que el servidor entienda los datos en formato json
 app.use(express.json());
 // permite que el servidor entienda los datos del formulario
