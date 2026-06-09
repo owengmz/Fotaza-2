@@ -14,6 +14,16 @@ Comentario.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    publicacionId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'publicacion_id',
+    },
+    usuarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'usuario_id',
+    },
   },
   {
     sequelize,

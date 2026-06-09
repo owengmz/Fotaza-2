@@ -1,0 +1,24 @@
+extends ../layout
+
+block title
+  | Mis colecciones | Fotaza
+
+block content
+  section.colecciones
+    h1.colecciones__titulo Mis colecciones
+    form.coleccion__form(action="/colecciones" method="POST")
+      input.form__input(
+        type="text"
+        name="nombre"
+        placeholder="Nombre de la coleccion"
+        required
+      )
+      button.btn.btn--primario(type="submit") Crear coleccion
+
+    if colecciones && colecciones.length
+      .colecciones__lista
+        each coleccion in colecciones
+          article.coleccion__item
+            a(href=`/colecciones/${coleccion.id}`)= coleccion.nombre
+    else
+      p No tenes colecciones todavia.

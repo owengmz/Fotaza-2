@@ -25,3 +25,46 @@ block content
               span Promedio: #{imagen.promedio} (#{imagen.cantidad} valoraciones)
             else
               span Sin valoraciones todavia
+          if usuarioId
+            form.valoracion__form(action=`/publicaciones/${publicacion.id}/imagenes/${imagen.id}/valorar` method="POST")
+              select.form__input(name="valor" required)
+                option(value="") Valorar
+                option(value="1") 1
+                option(value="2") 2
+                option(value="3") 3
+                option(value="4") 4
+                option(value="5") 5
+              button.btn.btn--primario(type="submit") Enviar
+            form(action=`/publicaciones/${publicacion.id}/imagenes/${imagen.id}/me-interesa` method="POST")
+              button.btn.btn--secundario(type="submit") Me interesa
+
+    if usuarioId && colecciones && colecciones.length
+      section.detalle__colecciones
+        form(method="POST" onsubmit=`event.preventDefault(); this.action='/colecciones/'+this.querySelector('[name=coleccionId]').value+'/publicaciones/${publicacion.id}'; this.submit()`)
+          select.form__input(name="coleccionId" required)
+            option(value="") Guardar en coleccion...
+            each coleccion in colecciones
+              option(value=coleccion.id)= coleccion.nombre
+          button.btn.btn--secundario(type="submit") Guardar
+
+    section.detalle__comentarios
+      h2.comentarios__titulo Comentarios
+      if publicacion.comentariosAbiertos && usuarioId
+        form.comentario__form(action=`/publicaciones/${publicacion.id}/comentarios` method="POST")
+          textarea.form__input(
+            name="contenido"
+            rows="3"
+            placeholder="Escribi tu comentario..."
+            required
+          )
+          button.btn.btn--primario(type="submit") Comentar
+
+      if publicacion.comentarios && publicacion.comentarios.length
+        .comentarios__lista
+          each comentario in publicacion.comentarios
+            article.comentario
+              p.comentario__autor= comentario.autor.nombreUsuario
+              p.comentario__contenido= comentario.contenido
+              p.comentario__fecha= new Date(comentario.createdAt).toLocaleDateString('es-AR')
+      else
+        p.comentarios__vacio No hay comentarios todavia.

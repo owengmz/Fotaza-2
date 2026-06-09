@@ -1,0 +1,24 @@
+extends ../layout
+
+block title
+  | #{coleccion.nombre} | Fotaza
+
+block content
+  section.coleccion
+    h1.coleccion__titulo= coleccion.nombre
+    a.btn.btn--secundario(href="/colecciones") Volver a mis colecciones
+
+    if coleccion.publicaciones && coleccion.publicaciones.length
+      .galeria__grid
+        each publicacion in coleccion.publicaciones
+          article.galeria__item
+            a(href=`/publicaciones/${publicacion.id}`)
+              if publicacion.imagenes && publicacion.imagenes.length
+                img.galeria__img(
+                  src=publicacion.imagenes[0].url
+                  alt=publicacion.titulo
+                )
+            .galeria__info
+              h3.galeria__titulo= publicacion.titulo
+    else
+      p Esta coleccion no tiene publicaciones todavia.

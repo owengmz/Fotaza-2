@@ -1,0 +1,37 @@
+extends ../layout
+
+block title
+  | #{perfil.nombreUsuario} | Fotaza
+
+block content
+  section.perfil
+    .perfil__header
+      h1.perfil__nombre= `${perfil.nombre} ${perfil.apellido}`
+      p.perfil__usuario= `@${perfil.nombreUsuario}`
+      if perfil.bio
+        p.perfil__bio= perfil.bio
+      .perfil__stats
+        span #{cantSeguidores} seguidores
+        span #{cantSeguidos} seguidos
+
+      if !esPropietario && usuario
+        form(action=`/usuarios/${perfil.id}/seguir` method="POST")
+          button.btn.btn--primario(type="submit")
+            | #{yaSigue ? 'Dejar de seguir' : 'Seguir'}
+
+    .perfil__publicaciones
+      h2 Publicaciones
+      if publicaciones && publicaciones.length
+        .galeria__grid
+          each publicacion in publicaciones
+            article.galeria__item
+              a(href=`/publicaciones/${publicacion.id}`)
+                if publicacion.imagenes && publicacion.imagenes.length
+                  img.galeria__img(
+                    src=publicacion.imagenes[0].url
+                    alt=publicacion.titulo
+                  )
+              .galeria__info
+                h3.galeria__titulo= publicacion.titulo
+      else
+        p No hay publicaciones todavia.
