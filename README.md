@@ -61,6 +61,7 @@ https://fotaza-2-jpeo.onrender.com
 
 - Registro e inicio de sesion con hash de password (bcryptjs)
 - Publicaciones con multiples imagenes, etiquetas y licencia
+- Marca de agua obligatoria para imagenes con copyright
 - Usuarios anonimos solo ven imagenes sin copyright
 - Comentarios con opcion de cierre por el autor
 - Valoracion de 1 a 5 por imagen (el autor no puede valorar la propia)
@@ -68,7 +69,23 @@ https://fotaza-2-jpeo.onrender.com
 - Seguir y dejar de seguir usuarios
 - Notificaciones de comentarios, valoraciones, me interesa y nuevos seguidores
 - Denuncias de imagenes y comentarios con motivo y descripcion
+- Publicacion con 3 o mas denuncias pasa a revision automaticamente
 - Panel del validador para bajar o desestimar publicaciones denunciadas
+- 3 publicaciones bajadas desactiva la cuenta del autor
 - Colecciones privadas de publicaciones favoritas
 - Buscador con filtros combinables por titulo, autor, etiqueta y licencia
 - Mensajeria privada entre usuarios
+- Motor de busqueda con Op.and y Op.iLike
+
+## Problemas encontrados y soluciones
+
+- bcrypt falla al deployar en Render: se uso bcryptjs como reemplazo
+- express.static con ruta relativa no resuelve en Render: se uso
+  fileURLToPath y join para construir la ruta absoluta
+- res.redirect('back') genera URLs literales "back": se reemplazo
+  siempre por rutas explicitas
+- Sequelize no mapea FKs en snake_case sin field:: se agrego field:
+  explicito en cada campo de nombre compuesto en todos los modelos
+- Zod 4 usa resultado.error.issues en lugar de resultado.error.errors
+- Render no soporta variables de entorno en .env: se configuro en el panel
+  de Render y se agrego un mensaje de error claro si faltan variables
