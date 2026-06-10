@@ -18,6 +18,7 @@ block content
         form(action=`/usuarios/${perfil.id}/seguir` method="POST")
           button.btn.btn--primario(type="submit")
             | #{yaSigue ? 'Dejar de seguir' : 'Seguir'}
+        a.btn.btn--secundario(href=`/mensajes/${perfil.id}`) Enviar mensaje
 
     .perfil__publicaciones
       h2 Publicaciones

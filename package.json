@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "node --watch app.js",
-    "db:init": "node scripts/dbInit.js"
+    "db:init": "node scripts/dbInit.js",
+    "db:seed": "node seeders/datos.js"
   },
   "type": "module",
   "repository": {

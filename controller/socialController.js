@@ -1,4 +1,4 @@
-import { MeInteresa, Follower, Imagen, Publicacion } from '../models/index.js';
+import { MeInteresa, Follower, Imagen, Publicacion, Usuario } from '../models/index.js';
 import { crearNotificacion } from '../helpers/notificaciones.js';
 
 export async function toggleMeInteresa(req, res, next) {
@@ -53,7 +53,15 @@ export async function toggleSeguir(req, res, next) {
 
     if (usuarioSeguidorId === usuarioSeguidoId) {
       req.session.flash = { tipo: 'error', mensajes: ['No podes seguirte a vos mismo'] };
-      return res.redirect(`/perfil`);
+      return res.redirect('/perfil');
+    }
+
+    const usuarioSeguido = await Usuario.findByPk(usuarioSeguidoId, {
+      attributes: ['id', 'nombreUsuario'],
+    });
+
+    if (!usuarioSeguido) {
+      return res.status(404).render('error', { mensaje: 'Usuario no encontrado' });
     }
 
     const existente = await Follower.findOne({
@@ -65,7 +73,6 @@ export async function toggleSeguir(req, res, next) {
     } else {
       await Follower.create({ usuarioSeguidorId, usuarioSeguidoId });
 
-      // notificamos al usuario seguido solo cuando se empieza a seguir
       await crearNotificacion({
         usuarioId: usuarioSeguidoId,
         generadorId: usuarioSeguidorId,
@@ -73,7 +80,7 @@ export async function toggleSeguir(req, res, next) {
       });
     }
 
-    res.redirect('back');
+    res.redirect(`/perfil/${usuarioSeguido.nombreUsuario}`);
   } catch (error) {
     next(error);
   }

@@ -1,0 +1,58 @@
+extends ../layout
+
+block title
+  | Buscar | Fotaza
+
+block content
+  section.buscador
+    h1.buscador__titulo Buscar publicaciones
+
+    form.buscador__form(action="/buscar" method="GET")
+      .form__grupo
+        label.form__label(for="titulo") Titulo
+        input.form__input(
+          type="text"
+          id="titulo"
+          name="titulo"
+          value=query.titulo || ''
+        )
+      .form__grupo
+        label.form__label(for="autor") Autor
+        input.form__input(
+          type="text"
+          id="autor"
+          name="autor"
+          value=query.autor || ''
+        )
+      .form__grupo
+        label.form__label(for="etiqueta") Etiqueta
+        input.form__input(
+          type="text"
+          id="etiqueta"
+          name="etiqueta"
+          value=query.etiqueta || ''
+        )
+      if usuario
+        .form__grupo
+          label.form__label(for="licencia") Licencia
+          select.form__input(id="licencia" name="licencia")
+            option(value="" selected=!query.licencia) Todas
+            option(value="sin_copyright" selected=query.licencia === 'sin_copyright') Sin copyright
+            option(value="con_copyright" selected=query.licencia === 'con_copyright') Con copyright
+      button.btn.btn--primario(type="submit") Buscar
+
+    if publicaciones && publicaciones.length
+      .galeria__grid
+        each publicacion in publicaciones
+          article.galeria__item
+            a(href=`/publicaciones/${publicacion.id}`)
+              if publicacion.imagenes && publicacion.imagenes.length
+                img.galeria__img(
+                  src=publicacion.imagenes[0].url
+                  alt=publicacion.titulo
+                )
+            .galeria__info
+              h2.galeria__titulo= publicacion.titulo
+              p.galeria__autor= publicacion.autor.nombreUsuario
+    else
+      p No se encontraron publicaciones.

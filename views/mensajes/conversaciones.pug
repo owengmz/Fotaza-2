@@ -1,0 +1,18 @@
+extends ../layout
+
+block title
+  | Mensajes | Fotaza
+
+block content
+  section.mensajes
+    h1.mensajes__titulo Mensajes
+
+    if conversaciones && conversaciones.length
+      .conversaciones__lista
+        each conv in conversaciones
+          article.conversacion
+            a(href=`/mensajes/${conv.usuario.id}`)
+              p.conversacion__usuario= conv.usuario.nombreUsuario
+              p.conversacion__ultimo= conv.ultimoMensaje.contenido
+    else
+      p No tenes conversaciones todavia.
