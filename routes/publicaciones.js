@@ -8,6 +8,7 @@ import { validarPublicacion } from '../middleware/validarPublicacion.js';
 import { agregarComentario } from '../controller/comentarioController.js';
 import { valorar } from '../controller/valoracionController.js';
 import { toggleMeInteresa } from '../controller/socialController.js';
+import { denunciarImagen, denunciarComentario, borrarComentario } from '../controller/denunciaController.js';
 // creamos el router para definir las rutas relacionadas con las publicaciones
 const router = Router();
 // definimos las rutas para crear una nueva publicacion y mostrar el detalle de una publicacion 
@@ -19,5 +20,8 @@ router.post('/:id/comentarios', requireAuth, agregarComentario);
 router.get('/:id', mostrarDetalle);
 router.post('/:id/imagenes/:imagenId/valorar', requireAuth, valorar);
 router.post('/:id/imagenes/:imagenId/me-interesa', requireAuth, toggleMeInteresa);
+router.post('/:id/imagenes/:imagenId/denunciar', requireAuth, denunciarImagen);
+router.post('/:id/comentarios/:comentarioId/denunciar', requireAuth, denunciarComentario);
+router.post('/:id/comentarios/:comentarioId/borrar', requireAuth, borrarComentario);
 
 export default router;

@@ -1,0 +1,48 @@
+extends ../layout
+
+block title
+  | Notificaciones | Fotaza
+
+block content
+  section.notificaciones
+    h1.notificaciones__titulo Notificaciones
+
+    if notificaciones && notificaciones.length
+      form(action="/notificaciones/leer-todas" method="POST")
+        button.btn.btn--secundario(type="submit") Marcar todas como leidas
+
+      .notificaciones__lista
+        each notif in notificaciones
+          article.notificacion(class=notif.leida ? 'notificacion--leida' : 'notificacion--nueva')
+            .notificacion__contenido
+              case notif.tipo
+                when 'nuevo_comentario'
+                  p
+                    strong= notif.generador.nombreUsuario
+                    |  comento tu publicacion&nbsp;
+                    if notif.publicacion
+                      a(href=`/publicaciones/${notif.publicacion.id}`)= notif.publicacion.titulo
+                when 'nueva_valoracion'
+                  p
+                    strong= notif.generador.nombreUsuario
+                    |  valoro una imagen tuya
+                    if notif.publicacion
+                      |  en&nbsp;
+                      a(href=`/publicaciones/${notif.publicacion.id}`)= notif.publicacion.titulo
+                when 'me_interesa'
+                  p
+                    strong= notif.generador.nombreUsuario
+                    |  le interesa una imagen tuya
+                    if notif.publicacion
+                      |  en&nbsp;
+                      a(href=`/publicaciones/${notif.publicacion.id}`)= notif.publicacion.titulo
+                when 'nuevo_seguidor'
+                  p
+                    strong= notif.generador.nombreUsuario
+                    |  empezo a seguirte
+              p.notificacion__fecha= new Date(notif.fecha).toLocaleDateString('es-AR')
+            if !notif.leida
+              form(action=`/notificaciones/${notif.id}/leida` method="POST")
+                button.btn.btn--link(type="submit") Marcar como leida
+    else
+      p No tenes notificaciones todavia.

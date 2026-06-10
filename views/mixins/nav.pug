@@ -15,6 +15,9 @@ nav.nav
       li
         a(href="/notificaciones") Notificaciones
       li
+      if usuario.rol === 'validador' || usuario.rol === 'admin'
+        li
+          a(href="/validador") Panel validador
         form(action="/auth/logout" method="POST")
           button.btn.btn--link(type="submit") Cerrar sesion
     else

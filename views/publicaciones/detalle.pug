@@ -37,6 +37,15 @@ block content
               button.btn.btn--primario(type="submit") Enviar
             form(action=`/publicaciones/${publicacion.id}/imagenes/${imagen.id}/me-interesa` method="POST")
               button.btn.btn--secundario(type="submit") Me interesa
+            form.denuncia__form(action=`/publicaciones/${publicacion.id}/imagenes/${imagen.id}/denunciar` method="POST")
+              select.form__input(name="motivo" required)
+                option(value="") Denunciar imagen...
+                option(value="contenido_inapropiado") Contenido inapropiado
+                option(value="copyright") Copyright
+                option(value="spam") Spam
+                option(value="otro") Otro
+              textarea.form__input(name="descripcion" rows="2" placeholder="Describe el problema" required)
+              button.btn.btn--peligro(type="submit") Denunciar
 
     if usuarioId && colecciones && colecciones.length
       section.detalle__colecciones
@@ -66,5 +75,18 @@ block content
               p.comentario__autor= comentario.autor.nombreUsuario
               p.comentario__contenido= comentario.contenido
               p.comentario__fecha= new Date(comentario.createdAt).toLocaleDateString('es-AR')
+              if usuarioId
+                form.denuncia__form(action=`/publicaciones/${publicacion.id}/comentarios/${comentario.id}/denunciar` method="POST")
+                  select.form__input(name="motivo" required)
+                    option(value="") Denunciar comentario...
+                    option(value="contenido_inapropiado") Contenido inapropiado
+                    option(value="copyright") Copyright
+                    option(value="spam") Spam
+                    option(value="otro") Otro
+                  textarea.form__input(name="descripcion" rows="2" placeholder="Describe el problema" required)
+                  button.btn.btn--peligro(type="submit") Denunciar
+              if esAutor
+                form(action=`/publicaciones/${publicacion.id}/comentarios/${comentario.id}/borrar` method="POST")
+                  button.btn.btn--peligro(type="submit") Borrar comentario
       else
         p.comentarios__vacio No hay comentarios todavia.

@@ -19,6 +19,26 @@ Notificacion.init(
       ),
       allowNull: false,
     },
+    usuarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'usuario_id',
+    },
+    generadorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'generador_id',
+    },
+    publicacionId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'publicacion_id',
+    },
+    imagenId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'imagen_id',
+    },
     leida: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
