@@ -1,4 +1,5 @@
 import { Valoracion, Imagen, Publicacion } from '../models/index.js';
+import { crearNotificacion } from '../helpers/notificaciones.js';
 
 export async function valorar(req, res, next) {
   try {
@@ -11,7 +12,6 @@ export async function valorar(req, res, next) {
       return res.redirect(`/publicaciones/${publicacionId}`);
     }
 
-    // verificamos que la imagen pertenece a la publicacion
     const imagen = await Imagen.findOne({
       where: { id: imagenId, publicacionId },
     });
@@ -20,7 +20,6 @@ export async function valorar(req, res, next) {
       return res.status(404).render('error', { mensaje: 'Imagen no encontrada' });
     }
 
-    // el autor no puede valorar su propia imagen
     const publicacion = await Publicacion.findByPk(publicacionId, {
       attributes: ['usuarioId'],
     });
@@ -30,11 +29,19 @@ export async function valorar(req, res, next) {
       return res.redirect(`/publicaciones/${publicacionId}`);
     }
 
-    // upsert: si ya valoro esta imagen actualiza el valor, si no crea la fila
     await Valoracion.upsert({
       usuarioId: req.session.usuarioId,
       imagenId,
       valor,
+    });
+
+    // notificamos al autor de la publicacion
+    await crearNotificacion({
+      usuarioId: publicacion.usuarioId,
+      generadorId: req.session.usuarioId,
+      tipo: 'nueva_valoracion',
+      publicacionId,
+      imagenId,
     });
 
     req.session.flash = { tipo: 'exito', mensajes: ['Valoracion guardada'] };

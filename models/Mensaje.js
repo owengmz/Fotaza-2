@@ -10,6 +10,16 @@ Mensaje.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    remitenteId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'remitente_id',
+    },
+    destinatarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'destinatario_id',
+    },
     contenido: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -18,6 +28,11 @@ Mensaje.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
+    },
+    imagenId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'imagen_id',
     },
   },
   {
@@ -30,7 +45,7 @@ Mensaje.init(
     paranoid: false,
     validate: {
       noMensajeAUnoMismo() {
-        if (this.remitenteId === this.destinatarioId) {
+        if (parseInt(this.remitenteId) === parseInt(this.destinatarioId)) {
           throw new Error('Un usuario no puede enviarse mensajes a si mismo');
         }
       },

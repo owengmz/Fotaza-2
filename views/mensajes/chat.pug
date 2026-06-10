@@ -1,0 +1,25 @@
+extends ../layout
+
+block title
+  | Chat con #{otroUsuario.nombreUsuario} | Fotaza
+
+block content
+  section.chat
+    h1.chat__titulo
+      | Chat con&nbsp;
+      a(href=`/perfil/${otroUsuario.nombreUsuario}`)= otroUsuario.nombreUsuario
+
+    .chat__mensajes
+      each mensaje in mensajes
+        article.mensaje(class=mensaje.remitenteId === usuarioId ? 'mensaje--propio' : 'mensaje--ajeno')
+          p.mensaje__contenido= mensaje.contenido
+          p.mensaje__fecha= new Date(mensaje.fecha).toLocaleDateString('es-AR')
+
+    form.chat__form(action=`/mensajes/${otroUsuario.id}` method="POST")
+      textarea.form__input(
+        name="contenido"
+        rows="3"
+        placeholder="Escribi tu mensaje..."
+        required
+      )
+      button.btn.btn--primario(type="submit") Enviar

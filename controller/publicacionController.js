@@ -52,7 +52,7 @@ export async function procesarPublicacion(req, res, next) {
 export async function mostrarDetalle(req, res, next) {
   try {
     const publicacion = await Publicacion.findOne({
-      where: { id: req.params.id, estado: 'activa' },
+      where: { id: req.params.id },
       include: [
         {
           model: Imagen,
@@ -107,6 +107,7 @@ export async function mostrarDetalle(req, res, next) {
         };
       })
     );
+
     let colecciones = [];
     if (req.session.usuarioId) {
       const cols = await Coleccion.findAll({
@@ -115,12 +116,15 @@ export async function mostrarDetalle(req, res, next) {
       });
       colecciones = cols.map((c) => c.toJSON());
     }
+
     res.render('publicaciones/detalle', {
       publicacion: publicacion.toJSON(),
       imagenes: imagenesConValoracion,
       usuarioId: req.session.usuarioId || null,
-      colecciones: colecciones,
+      colecciones,
+      esAutor: req.session.usuarioId === publicacion.usuarioId,
     });
+
   } catch (error) {
     next(error);
   }

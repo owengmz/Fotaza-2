@@ -1,0 +1,36 @@
+extends ../layout
+
+block title
+  | Panel validador | Fotaza
+
+block content
+  section.validador
+    h1.validador__titulo Panel de validacion
+
+    if publicaciones && publicaciones.length
+      each publicacion in publicaciones
+        article.validador__item
+          h2= publicacion.titulo
+          p
+            | Autor:&nbsp;
+            a(href=`/perfil/${publicacion.autor.nombreUsuario}`)= publicacion.autor.nombreUsuario
+
+          each imagen in publicacion.imagenes
+            .validador__imagen
+              img(src=imagen.url alt=publicacion.titulo style="max-width: 200px")
+              if imagen.usuariosDenunciantes && imagen.usuariosDenunciantes.length
+                p #{imagen.usuariosDenunciantes.length} denuncia(s)
+                each denunciante in imagen.usuariosDenunciantes
+                  .denuncia
+                    p
+                      strong= denunciante.nombreUsuario
+                      |  - #{denunciante.DenunciaImagen.motivo}
+                    p= denunciante.DenunciaImagen.descripcion
+
+          .validador__acciones
+            form(action=`/validador/${publicacion.id}/bajar` method="POST" style="display:inline")
+              button.btn.btn--peligro(type="submit") Bajar publicacion
+            form(action=`/validador/${publicacion.id}/desestimar` method="POST" style="display:inline")
+              button.btn.btn--secundario(type="submit") Desestimar denuncias
+    else
+      p No hay publicaciones pendientes de revision.

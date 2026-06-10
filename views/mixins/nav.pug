@@ -4,6 +4,8 @@ nav.nav
   a.nav__logo(href="/") Fotaza
   //- lista de enlaces */
   ul.nav__links
+    li
+      a(href="/buscar") Buscar
     //- si el usuario esta registrado mostramos los enlaces de nueva publicacion, perfil, notificaciones y cerra sesion, si no solo mostramos inicio de sesion y registro */
     if usuario
       li
@@ -14,6 +16,11 @@ nav.nav
         a(href="/colecciones") Mis colecciones
       li
         a(href="/notificaciones") Notificaciones
+      li
+        a(href="/mensajes") Mensajes
+      if usuario.rol === 'validador' || usuario.rol === 'admin'
+        li
+          a(href="/validador") Panel validador
       li
         form(action="/auth/logout" method="POST")
           button.btn.btn--link(type="submit") Cerrar sesion

@@ -1,11 +1,11 @@
-import { MeInteresa, Follower, Imagen, Publicacion } from '../models/index.js';
+import { MeInteresa, Follower, Imagen, Publicacion, Usuario } from '../models/index.js';
+import { crearNotificacion } from '../helpers/notificaciones.js';
 
 export async function toggleMeInteresa(req, res, next) {
   try {
     const imagenId = parseInt(req.params.imagenId);
     const publicacionId = parseInt(req.params.id);
 
-    // verificamos que la imagen existe y pertenece a la publicacion
     const imagen = await Imagen.findOne({
       where: { id: imagenId, publicacionId },
     });
@@ -25,6 +25,19 @@ export async function toggleMeInteresa(req, res, next) {
         usuarioId: req.session.usuarioId,
         imagenId,
       });
+
+      // notificamos al autor solo cuando se agrega, no cuando se quita
+      const publicacion = await Publicacion.findByPk(publicacionId, {
+        attributes: ['usuarioId'],
+      });
+
+      await crearNotificacion({
+        usuarioId: publicacion.usuarioId,
+        generadorId: req.session.usuarioId,
+        tipo: 'me_interesa',
+        publicacionId,
+        imagenId,
+      });
     }
 
     res.redirect(`/publicaciones/${publicacionId}`);
@@ -40,7 +53,15 @@ export async function toggleSeguir(req, res, next) {
 
     if (usuarioSeguidorId === usuarioSeguidoId) {
       req.session.flash = { tipo: 'error', mensajes: ['No podes seguirte a vos mismo'] };
-      return res.redirect('back');
+      return res.redirect('/perfil');
+    }
+
+    const usuarioSeguido = await Usuario.findByPk(usuarioSeguidoId, {
+      attributes: ['id', 'nombreUsuario'],
+    });
+
+    if (!usuarioSeguido) {
+      return res.status(404).render('error', { mensaje: 'Usuario no encontrado' });
     }
 
     const existente = await Follower.findOne({
@@ -51,9 +72,15 @@ export async function toggleSeguir(req, res, next) {
       await existente.destroy();
     } else {
       await Follower.create({ usuarioSeguidorId, usuarioSeguidoId });
+
+      await crearNotificacion({
+        usuarioId: usuarioSeguidoId,
+        generadorId: usuarioSeguidorId,
+        tipo: 'nuevo_seguidor',
+      });
     }
 
-    res.redirect('back');
+    res.redirect(`/perfil/${usuarioSeguido.nombreUsuario}`);
   } catch (error) {
     next(error);
   }
