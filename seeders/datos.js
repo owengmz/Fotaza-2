@@ -65,7 +65,7 @@ async function sembrar() {
   const [imagen] = await Imagen.findOrCreate({
     where: { publicacionId: publicacion.id },
     defaults: {
-      url: 'https://picsum.photos/800/600',
+      url: 'https://picsum.photos/seed/fotaza/800/600',
       licencia: 'sin_copyright',
       publicacionId: publicacion.id,
     },
