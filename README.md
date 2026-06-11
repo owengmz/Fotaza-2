@@ -64,8 +64,8 @@ https://fotaza-2-jpeo.onrender.com
 - Marca de agua obligatoria para imagenes con copyright
 - Usuarios anonimos solo ven imagenes sin copyright
 - Comentarios con opcion de cierre por el autor
-- Valoracion de 1 a 5 por imagen (el autor no puede valorar la propia)
-- Me interesa con notificacion al autor
+- Comentarios en publicaciones, con notificacion al autor
+- Valoracion de 1 a 5 por imagen (el autor no puede valorar la propia)- Me interesa con notificacion al autor
 - Seguir y dejar de seguir usuarios
 - Notificaciones de comentarios, valoraciones, me interesa y nuevos seguidores
 - Denuncias de imagenes y comentarios con motivo y descripcion
@@ -75,7 +75,6 @@ https://fotaza-2-jpeo.onrender.com
 - Colecciones privadas de publicaciones favoritas
 - Buscador con filtros combinables por titulo, autor, etiqueta y licencia
 - Mensajeria privada entre usuarios
-- Motor de busqueda con Op.and y Op.iLike
 
 ## Problemas encontrados y soluciones
 
