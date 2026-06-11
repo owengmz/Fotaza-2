@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
-import { connectDatabase, Usuario, Publicacion, Imagen, Etiqueta } from '../models/index.js';
+import { connectDatabase, Usuario } from '../models/index.js';
 
 async function sembrar() {
   await connectDatabase();
@@ -41,33 +41,6 @@ async function sembrar() {
       passwordHash,
       rol: 'usuario',
       estado: 'activo',
-    },
-  });
-
-  // publicacion de prueba
-  const [etiqueta] = await Etiqueta.findOrCreate({
-    where: { nombre: 'prueba' },
-  });
-
-  const [publicacion] = await Publicacion.findOrCreate({
-    where: { titulo: 'Publicacion de prueba' },
-    defaults: {
-      titulo: 'Publicacion de prueba',
-      descripcion: 'Imagen de prueba para el TPI',
-      usuarioId: usuarioComun.id,
-      comentariosAbiertos: true,
-      estado: 'activa',
-    },
-  });
-
-  await publicacion.addEtiqueta(etiqueta);
-
-  const [imagen] = await Imagen.findOrCreate({
-    where: { publicacionId: publicacion.id },
-    defaults: {
-      url: 'https://picsum.photos/seed/fotaza/800/600',
-      licencia: 'sin_copyright',
-      publicacionId: publicacion.id,
     },
   });
 
